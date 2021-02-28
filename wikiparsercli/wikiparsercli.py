@@ -36,6 +36,7 @@ import logging.config
 import json
 import argparse
 import coloredlogs
+from wikiparserlib import WikipediaSeries
 
 
 __author__ = '''Niko Izsak <izsak.niko@gmail.com>'''
@@ -80,22 +81,13 @@ def get_arguments():
                                  'warning',
                                  'error',
                                  'critical'])
-
-    # examples:
-    parser.add_argument('--long', '-s',
-                        choices=['a', 'b'],
-                        dest='parameter_long',
+    parser.add_argument('--name', '-n',
+                        dest='series_name',
                         action='store',
-                        help='Describe the parameter here',
-                        default='a',
+                        help='The series name you want to search for',
                         type=str,
                         required=True)
-    parser.add_argument('--feature',
-                        dest='feature',
-                        action='store_true')
-    parser.add_argument('--no-feature',
-                        dest='feature',
-                        action='store_false')
+
     args = parser.parse_args()
     return args
 
@@ -139,7 +131,15 @@ def main():
     args = get_arguments()
     setup_logging(args.log_level, args.logger_config)
     # Main code goes here
-
-
+    if args.series_name:
+        LOGGER.info("seacrching for {}".format(args.series_name))
+        test = WikipediaSeries()
+        result = test.search_by_name(args.series_name)
+        LOGGER.debug(result)
+        soup = test.get_soup_by_url(result[0].url)
+        table = soup.find("table", {"class": "wikitable plainrowheaders wikiepisodetable"})
+        test.parse_seasons_and_episodes_from_soup(soup)
+        LOGGER.debug(test)
+        test.write_to_file_system()
 if __name__ == '__main__':
     main()
