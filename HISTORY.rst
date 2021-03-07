@@ -13,3 +13,9 @@ History
 ------------------
 
 * first release of the cli tool
+
+
+0.1.1 (07-03-2021)
+------------------
+
+* added entrypoint 'wiki-search'
