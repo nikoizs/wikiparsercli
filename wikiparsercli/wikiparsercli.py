@@ -134,18 +134,16 @@ def main():
         LOGGER.info("seacrching for {}".format(args.series_name))
         series = WikipediaSeries()
         results = series.search_by_name(args.series_name)
-        found_match = series.check_for_match_in_result(results)
-        if not found_match:
+        if len(results) == 0:
+            LOGGER.info("Your search didn't return any results")
+            raise SystemExit(1)
+        elif len(results) > 1:
             for idx, search_result in enumerate(results):
                 LOGGER.info('{}:{}'.format(idx, search_result.title))
             user_choice = int(input("Found multiple results, please choose the correct one:"))
             if results[user_choice]:
                 LOGGER.debug("You chose: {}".format(results[user_choice].title))
-                found_match = series.check_for_match_in_result([results[user_choice]])
-        soup = series.get_soup_by_url(found_match.url)
-        series.parse_series_title_and_type(found_match)
-        is_miniseris = True if found_match.query_type == 'miniseries' else False
-        series.parse_seasons_and_episodes_from_soup(soup, miniseries=is_miniseris)
+                series.set_match(results[user_choice])
         series.write_to_file_system()
 if __name__ == '__main__':
     main()

@@ -3,6 +3,11 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[[source]]
+name = "test"
+url = "https://test.pypi.org/simple"
+verify_ssl = true
+
 [dev-packages]
 
 # Documenting
@@ -23,4 +28,4 @@ toml = "~=0.10.0"
 
 [packages]
 coloredlogs = "~=10.0"
-
+wikiparserlib = "~=0.1.0"
