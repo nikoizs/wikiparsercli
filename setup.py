@@ -41,11 +41,11 @@ setup(
     license='MIT',
     zip_safe=False,
     keywords='''wikiparsercli ''',
-    entry_points = {
+    entry_points={
                    'console_scripts': [
                        # enable this to automatically generate a script in /usr/local/bin called myscript that points to your
                        #  wikiparsercli.wikiparsercli:main method
-                       # 'myscript = wikiparsercli.wikiparsercli:main'
+                       'wiki-search = wikiparsercli.wikiparsercli:main'
                    ]},
     classifiers=[
         'Development Status :: 4 - Beta',
