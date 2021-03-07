@@ -137,7 +137,7 @@ def main():
         if len(results) == 0:
             LOGGER.info("Your search didn't return any results")
             raise SystemExit(1)
-        elif len(results) > 1:
+        if len(results) > 1:
             for idx, search_result in enumerate(results):
                 LOGGER.info('{}:{}'.format(idx, search_result.title))
             user_choice = int(input("Found multiple results, please choose the correct one:"))
@@ -145,5 +145,7 @@ def main():
                 LOGGER.debug("You chose: {}".format(results[user_choice].title))
                 series.set_match(results[user_choice])
         series.write_to_file_system()
+
+
 if __name__ == '__main__':
     main()
